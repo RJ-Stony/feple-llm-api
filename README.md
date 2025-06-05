@@ -1,13 +1,13 @@
-# 민원 상담 AI API 서버
+# Feple AIHub 모델 API 서버
 
-민원 상담 대화형 AI 모델을 위한 FastAPI 기반 API 서버입니다.
+Feple AIHub 모델을 위한 FastAPI 기반 API 서버입니다.
 
 ## 필요 파일 다운로드
 
-AI Hub에서 다음 파일들을 다운로드 할 수 있습니다:
+AIHub에서 다음 파일들을 다운로드 할 수 있습니다.
 - [민간 민원 상담 LLM 사전학습 및 Instruction Tuning 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&dataSetSn=71844)
 
-다운로드 후 다음 폴더들을 확인하세요:
+다운로드 후 다음 폴더들을 확인해주세요.
 - **1.모델소스코드**: 베이스 이미지 구성에 필요한 Dockerfile 및 소스코드
 - **3.도커이미지**: 베이스 이미지를 로드하기 위한 파일
 
@@ -15,7 +15,7 @@ AI Hub에서 다음 파일들을 다운로드 할 수 있습니다:
 
 ### 1. 도커 이미지 구성
 
-먼저 베이스 이미지를 로드합니다:
+먼저 베이스 이미지를 로드합니다.
 ```bash
 # 3.도커이미지 폴더에서
 docker load -i [이미지 파일명].tar
@@ -36,7 +36,7 @@ docker run -d --restart unless-stopped --gpus all -p 80:8000 consulting-api:late
 ```
 
 #### ModuleNotFoundError 발생 시
-필요한 패키지가 이미지에 설치되지 않은 경우 다음과 같이 실행합니다:
+필요한 패키지가 이미지에 설치되지 않은 경우 다음과 같이 실행해줍니다.
 
 ```bash
 docker run -it --gpus all -p 80:8000 --entrypoint /bin/bash consulting-api:latest
@@ -50,7 +50,7 @@ python -m pip install flash-attn
 python api_server.py
 ```
 
-설치 후에는 이 컨테이너를 커밋하여 새 이미지를 생성하는 것을 권장합니다:
+설치 후에는 이 컨테이너를 커밋하여 새 이미지를 생성하는 것을 권장합니다.
 ```bash
 # 다른 터미널에서 (컨테이너 ID 확인 후)
 docker commit [컨테이너ID] consulting-api:latest
@@ -69,7 +69,7 @@ docker commit [컨테이너ID] consulting-api:latest
 ```bash
 curl -X POST "http://<서버IP>:80/api/predict" \
      -H "Content-Type: application/json" \
-     -d '{"question": "버스 노선 변경에 대해 문의합니다", "context": "30번 버스가 아파트 앞을 지나지 않아 불편합니다."}'
+     -d '{"question": "상담 내용에 대해 요약해주세요.", "context": "{실제 상담 내용}"}'
 ```
 
 또는 브라우저에서 `http://<서버IP>:80/docs`에 접속하여 Swagger UI로 API를 테스트할 수 있습니다.
